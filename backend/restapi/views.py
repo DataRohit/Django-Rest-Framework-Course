@@ -1,40 +1,34 @@
-# Import json to convert byte string to JSON
+# Imports
 import json
-
-# Import JsonResponse to return JSON data
-from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 
 # Function for home page view
+@api_view(["POST"])
 def home(request, *args, **kwargs):
-    # Get the query parameters
-    # Returns a dictionary
-    query_params = request.GET
-
     # Get the body of the request
-    # Returns a byte string of json data
-    body = request.body
+    body = request.data
 
-    # If body is empty, set it to an empty string
     if not body:
-        return JsonResponse({"error": "No JSON Body Received!"}, status=400)
+        return Response(
+            {"error": "No JSON Body Received!"}, status=status.HTTP_BAD_REQUEST
+        )
+
+    # Create a dictionary to store the response data
+    response_data = {}
 
     # Convert the byte string to a dictionary
     try:
-        # If the body is valid JSON, load the data
-        body_dict = json.loads(body)
+        body_dict = dict(body)
 
-        # Add the content type to the dictionary
-        body_dict["content_type"] = request.content_type
-
-        # Add the headers to the dictionary
-        body_dict["headers"] = dict(request.headers)
-
-        # Add the query parameters to the dictionary
-        body_dict["query_params"] = dict(query_params)
+        response_data["content_type"] = request.content_type
+        response_data["query_params"] = dict(request.GET)
+        response_data["request_body"] = body_dict
 
     except ValueError:
-        body_dict = {"error": "Invalid JSON Payload Received!", "body": body}
+        response_data = {"error": "Invalid JSON Payload Received!", "body": body}
 
     # Return JSON data
-    return JsonResponse(body_dict)
+    return Response(response_data)
