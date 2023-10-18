@@ -10,4 +10,12 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
 
         # Serialize all fields in the model
-        fields = "__all__"
+        fields = [
+            "id",
+            "title",
+            "category",
+            "description",
+            "price",
+            "sale_price",
+            "discount",
+        ]
