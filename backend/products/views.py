@@ -1,61 +1,57 @@
-# Import serializer
-from django.core.serializers import serialize
-
-# Import json to convert model to JSON
-import json
-
-# Import JsonResponse to return JSON data
-from django.http import JsonResponse
-
-# Import for converting model to JSON
-from django.forms.models import model_to_dict
-
-# Import the Product model
+# Import
+from random import randint
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 from products.models import Product
+from products.serializers import *
 
 
-# Function for home page view
+# Function for getting a random product
+@api_view(["GET"])
 def home(request, *args, **kwargs):
-    # Get a random record from the Product model
-    query_product = Product.objects.order_by("?").first()
+    # Count the number of products in the Product model
+    product_count = Product.objects.count()
 
-    # Check if data exists
-    if query_product:
-        # Convert model to JSON
-        query_product = model_to_dict(query_product)
+    # If there are products in the Product model
+    if product_count > 0:
+        # Get a random product index
+        random_index = randint(0, product_count - 1)
 
-        # Return JSON data
-        return JsonResponse({"product": query_product})
+        # Query all products and get the product at the random index
+        query_product = Product.objects.all()[random_index]
 
-    # Return an error message for product not found
-    return JsonResponse({"error": "Product not found."}, status=404)
+        # Serialize the product using the serializer
+        serializer = ProductSerializer(query_product)
+
+        # Return the serialized data
+        return Response(serializer.data)
+
+    return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
 
 
-# Function to search for a product using the query parameter
+# Function to search for a product using a query parameter
+@api_view(["GET"])
 def search_product(request, *args, **kwargs):
     # Get the query parameter
-    query_parameter = request.GET
+    query_parameter = request.GET.get("title")
 
-    # If query parameter not exists
     if not query_parameter:
-        # Return an error message
-        return JsonResponse({"error": "Query parameter not found!"}, status=404)
-
-    # If invalid query parameter
-    if not query_parameter.get("title"):
-        # Return an error message
-        return JsonResponse({"error": "Invalid query parameter!"}, status=404)
-
-    # If query parameter exists
-    # Get the query parameter
-    query_parameter = query_parameter.get("title")
-
-    # Get the product from the Product model
-    query_product = json.loads(
-        serialize(
-            "json", Product.objects.filter(title__icontains=query_parameter).all()[:5]
+        return Response(
+            {"error": "Query parameter not found!"}, status=status.HTTP_400_BAD_REQUEST
         )
-    )
 
-    # Return back the query parameter
-    return JsonResponse({"products": query_product})
+    if not query_parameter.strip():
+        return Response(
+            {"error": "Invalid query parameter!"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    # Get the products from the Product model
+    query_products = Product.objects.filter(title__icontains=query_parameter)[:5]
+
+    if query_products:
+        # Serialize the products using the serializer
+        serializer = ProductSerializer(query_products, many=True)
+        return Response({"products": serializer.data})
+
+    return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
