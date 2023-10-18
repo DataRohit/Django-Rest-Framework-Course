@@ -27,31 +27,36 @@ def home(request, *args, **kwargs):
         # Return the serialized data
         return Response(serializer.data)
 
-    return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+    return Response(
+        {"error": "Products Not Available."}, status=status.HTTP_404_NOT_FOUND
+    )
 
 
 # Function to search for a product using a query parameter
 @api_view(["GET"])
 def search_product(request, *args, **kwargs):
-    # Get the query parameter
-    query_parameter = request.GET.get("title")
+    # Get the query parameters
+    query_params = {
+        "title__icontains": request.GET.get("title"),
+        "category__icontains": request.GET.get("category"),
+        "description__icontains": request.GET.get("description"),
+    }
 
-    if not query_parameter:
+    # Remove empty parameters
+    filters = {key: value for key, value in query_params.items() if value}
+
+    if not filters:
         return Response(
-            {"error": "Query parameter not found!"}, status=status.HTTP_400_BAD_REQUEST
+            {"error": "No query parameters provided!"},
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
-    if not query_parameter.strip():
-        return Response(
-            {"error": "Invalid query parameter!"}, status=status.HTTP_400_BAD_REQUEST
-        )
-
-    # Get the products from the Product model
-    query_products = Product.objects.filter(title__icontains=query_parameter)[:5]
+    # Get the products from the Product model with applied filters
+    query_products = Product.objects.filter(**filters)[:5]
 
     if query_products:
         # Serialize the products using the serializer
         serializer = ProductSerializer(query_products, many=True)
         return Response({"products": serializer.data})
 
-    return Response({"error": "Product not found."}, status=status.HTTP_404_NOT_FOUND)
+    return Response({"error": "No products found."}, status=status.HTTP_404_NOT_FOUND)

@@ -12,6 +12,7 @@ class Product(models.Model):
 
     # Fields of the model
     title = models.CharField(max_length=120)
+    category = models.CharField(max_length=120)
     description = models.TextField(blank=True, null=True)
     price = models.FloatField(max_length=120)
 
