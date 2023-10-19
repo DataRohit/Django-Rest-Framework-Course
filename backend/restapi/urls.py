@@ -6,5 +6,5 @@ from . import views
 
 # Map the routest to respective views
 urlpatterns = [
-    path("", views.home, name="home"),
+    path("", views.restapi_home, name="home"),
 ]

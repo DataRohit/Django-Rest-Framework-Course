@@ -7,7 +7,7 @@ from rest_framework import status
 
 # Function for home page view
 @api_view(["POST"])
-def home(request, *args, **kwargs):
+def restapi_home(request, *args, **kwargs):
     # Get the body of the request
     body = request.data
 

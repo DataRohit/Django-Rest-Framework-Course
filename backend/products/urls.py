@@ -6,7 +6,7 @@ from . import views
 
 # Map the routest to respective views
 urlpatterns = [
-    path("", views.HomeView.as_view(), name="home"),
+    path("", views.ProductHomeView.as_view(), name="home"),
     path(
         "search_product/<uuid:pk>/",
         views.SearchProductView.as_view(),
