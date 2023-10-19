@@ -15,19 +15,9 @@ class HomeView(generics.RetrieveAPIView):
         return None
 
 
-class SearchProductView(generics.ListAPIView):
+class SearchProductView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-    def get_queryset(self):
-        filters = {}
-        query_params = {
-            "title__icontains": self.request.GET.get("title"),
-            "category__icontains": self.request.GET.get("category"),
-            "description__icontains": self.request.GET.get("description"),
-        }
-        filters = {key: value for key, value in query_params.items() if value}
-
-        return Product.objects.filter(**filters) if filters else Product.objects.none()
 
 
 class AddProductView(generics.CreateAPIView):
