@@ -8,4 +8,5 @@ from . import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("search_product/", views.search_product, name="search_product"),
+    path("add_product/", views.add_product, name="add_product"),
 ]

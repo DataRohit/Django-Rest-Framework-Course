@@ -60,3 +60,29 @@ def search_product(request, *args, **kwargs):
         return Response({"products": serializer.data})
 
     return Response({"error": "No products found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Function to add a product
+@api_view(["POST"])
+def add_product(request, *args, **kwargs):
+    # Serialize the request data
+    serializer = ProductSerializer(data=request.data)
+
+    # If the data is valid
+    if serializer.is_valid():
+        # Save the data
+        product = serializer.save()
+
+        # Serialize the added product data
+        serialized_product = ProductSerializer(product)
+        return Response(
+            {
+                "success": "Product added successfully",
+                "product": serialized_product.data,
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+    else:
+        # If the data is not valid, return an error response with validation errors
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
