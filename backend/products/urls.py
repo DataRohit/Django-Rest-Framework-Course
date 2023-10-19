@@ -8,9 +8,18 @@ from . import views
 urlpatterns = [
     path("", views.ProductHomeView.as_view(), name="home"),
     path(
-        "search_product/<uuid:pk>/",
-        views.SearchProductView.as_view(),
-        name="search_product",
+        "product/<uuid:pk>/", views.ProductSearchView.as_view(), name="search_product"
     ),
-    path("add_product/", views.AddProductView.as_view(), name="add_product"),
+    path(
+        "product/<uuid:pk>/update",
+        views.ProductUpdateView.as_view(),
+        name="update_product",
+    ),
+    path(
+        "product/<uuid:pk>/delete",
+        views.ProductDeleteView.as_view(),
+        name="delete_product",
+    ),
+    path("list/", views.ProductListView.as_view(), name="list_product"),
+    path("create/", views.ProductCreateView.as_view(), name="create_product"),
 ]
