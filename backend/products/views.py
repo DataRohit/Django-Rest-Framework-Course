@@ -4,7 +4,7 @@ from products.models import Product
 from products.serializers import ProductSerializer
 
 
-class HomeView(generics.RetrieveAPIView):
+class ProductHomeView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
     def get_object(self):
