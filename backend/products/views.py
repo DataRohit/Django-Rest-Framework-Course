@@ -1,6 +1,6 @@
 from random import randint
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, authentication, permissions
 from products.models import Product
 from products.serializers import ProductSerializer
 
@@ -28,11 +28,15 @@ class ProductListView(generics.ListAPIView):
 
 class ProductCreateView(generics.CreateAPIView):
     serializer_class = ProductSerializer
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class ProductUpdateView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         # Get the instance you want to update
@@ -60,3 +64,5 @@ class ProductUpdateView(generics.UpdateAPIView):
 class ProductDeleteView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
