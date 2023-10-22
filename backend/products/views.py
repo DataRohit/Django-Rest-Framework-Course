@@ -1,9 +1,9 @@
 from random import randint
 from rest_framework.response import Response
-from rest_framework import status, generics, permissions
+from rest_framework import status, generics
 from products.models import Product
 from products.serializers import ProductSerializer
-from products.permissions import IsStaffEditorPermission
+from restapi.mixins import StaffEditorPermissionMixin
 
 
 class ProductHomeView(generics.RetrieveAPIView):
@@ -28,16 +28,14 @@ class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
 
 
-class ProductCreateView(generics.CreateAPIView):
+class ProductCreateView(StaffEditorPermissionMixin, generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
-class ProductUpdateView(generics.UpdateAPIView):
+class ProductUpdateView(StaffEditorPermissionMixin, generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
     def get(self, request, *args, **kwargs):
         # Get the instance you want to update
@@ -62,7 +60,6 @@ class ProductUpdateView(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProductDeleteView(generics.DestroyAPIView):
+class ProductDeleteView(StaffEditorPermissionMixin, generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
