@@ -4,7 +4,7 @@ from rest_framework import status, generics, authentication, permissions
 from products.models import Product
 from products.serializers import ProductSerializer
 from products.permissions import IsStaffEditorPermission
-from restapi.authentication import TokenAuthentication
+from restapi.authentication import ExpiringTokenAuthentication
 
 
 class ProductHomeView(generics.RetrieveAPIView):
@@ -12,7 +12,7 @@ class ProductHomeView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     authentication_classes = [
         authentication.SessionAuthentication,
-        TokenAuthentication,
+        ExpiringTokenAuthentication,
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
@@ -29,7 +29,7 @@ class ProductSearchView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     authentication_classes = [
         authentication.SessionAuthentication,
-        TokenAuthentication,
+        ExpiringTokenAuthentication,
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
@@ -39,7 +39,7 @@ class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
     authentication_classes = [
         authentication.SessionAuthentication,
-        TokenAuthentication,
+        ExpiringTokenAuthentication,
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
@@ -49,7 +49,7 @@ class ProductCreateView(generics.CreateAPIView):
     serializer_class = ProductSerializer
     authentication_classes = [
         authentication.SessionAuthentication,
-        TokenAuthentication,
+        ExpiringTokenAuthentication,
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
@@ -59,7 +59,7 @@ class ProductUpdateView(generics.UpdateAPIView):
     serializer_class = ProductSerializer
     authentication_classes = [
         authentication.SessionAuthentication,
-        TokenAuthentication,
+        ExpiringTokenAuthentication,
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
@@ -91,6 +91,6 @@ class ProductDeleteView(generics.DestroyAPIView):
     serializer_class = ProductSerializer
     authentication_classes = [
         authentication.SessionAuthentication,
-        TokenAuthentication,
+        ExpiringTokenAuthentication,
     ]
     permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
