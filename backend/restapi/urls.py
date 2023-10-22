@@ -4,7 +4,9 @@ from django.urls import path
 # Import views.py from restapi app
 from . import views
 
-# Map the routest to respective views
+# Map the routes to respective views
 urlpatterns = [
-    path("", views.restapi_home, name="home"),
+    path("", views.RestAPIHome.as_view(), name="home"),
+    path("auth/", views.ObtainAuthToken.as_view()),
+    path("auth/clear_expired/", views.ClearExpiredTokens.as_view()),
 ]
