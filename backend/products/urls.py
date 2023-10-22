@@ -4,7 +4,7 @@ from django.urls import path
 # Import views.py from restapi app
 from . import views
 
-# Map the routest to respective views
+# Map the routes to respective views
 urlpatterns = [
     path("", views.ProductHomeView.as_view(), name="home"),
     path(
