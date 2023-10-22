@@ -18,11 +18,6 @@ class ProductHomeView(generics.RetrieveAPIView):
         return None
 
 
-class ProductSearchView(generics.RetrieveAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-
-
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -33,7 +28,12 @@ class ProductCreateView(StaffEditorPermissionMixin, generics.CreateAPIView):
     serializer_class = ProductSerializer
 
 
-class ProductUpdateView(StaffEditorPermissionMixin, generics.UpdateAPIView):
+class ProductSearchUpdateDestroyView(
+    StaffEditorPermissionMixin,
+    generics.RetrieveAPIView,
+    generics.UpdateAPIView,
+    generics.DestroyAPIView,
+):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -58,8 +58,3 @@ class ProductUpdateView(StaffEditorPermissionMixin, generics.UpdateAPIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ProductDeleteView(StaffEditorPermissionMixin, generics.DestroyAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
