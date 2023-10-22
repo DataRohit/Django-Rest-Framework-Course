@@ -27,6 +27,9 @@ class ProductCreateView(StaffEditorPermissionMixin, generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class ProductSearchUpdateDestroyView(
     StaffEditorPermissionMixin,

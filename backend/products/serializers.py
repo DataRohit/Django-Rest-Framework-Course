@@ -7,6 +7,7 @@ from products.validators import unique_title_validator
 # Define a serializer for the Product model
 class ProductSerializer(serializers.ModelSerializer):
     # Include properties explicitly
+    user = serializers.ReadOnlyField(source="user.username")
     title = serializers.CharField(validators=[unique_title_validator])
     sale_price = serializers.ReadOnlyField()
     discount = serializers.ReadOnlyField()
