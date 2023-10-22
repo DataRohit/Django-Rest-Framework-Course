@@ -1,12 +1,13 @@
 # Import serializers
 from rest_framework import serializers
-from rest_framework import reverse
 from products.models import Product
+from products.validators import unique_title_validator
 
 
 # Define a serializer for the Product model
 class ProductSerializer(serializers.ModelSerializer):
     # Include properties explicitly
+    title = serializers.CharField(validators=[unique_title_validator])
     sale_price = serializers.ReadOnlyField()
     discount = serializers.ReadOnlyField()
     url = serializers.HyperlinkedIdentityField(
