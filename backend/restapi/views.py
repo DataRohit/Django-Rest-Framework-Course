@@ -9,8 +9,8 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from restapi.serializers import *
 
 from rest_framework.views import APIView
-from rest_framework import generics, status, permissions
-from restapi.permissions import IsTokenEditorPermission
+from rest_framework import generics, status
+from restapi.mixins import TokenEditorPermissionMixin
 from rest_framework.response import Response
 
 
@@ -38,8 +38,7 @@ class ObtainAuthToken(ObtainAuthToken):
         return Response({"token": token.key})
 
 
-class ClearExpiredTokens(generics.DestroyAPIView):
-    permission_classes = [permissions.IsAdminUser, IsTokenEditorPermission]
+class ClearExpiredTokens(TokenEditorPermissionMixin, generics.DestroyAPIView):
     serializer_class = ExpiringTokenSerializer
 
     def get_queryset(self):
