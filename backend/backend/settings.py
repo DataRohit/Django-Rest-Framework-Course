@@ -135,7 +135,6 @@ REST_FRAMEWORK = {
         "restapi.authentication.ExpiringTokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAdminUser",
-        "products.permissions.IsStaffEditorPermission",
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
 }

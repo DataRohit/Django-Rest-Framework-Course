@@ -10,12 +10,11 @@ from restapi.serializers import *
 
 from rest_framework.views import APIView
 from rest_framework import generics, status, permissions
+from restapi.permissions import IsTokenEditorPermission
 from rest_framework.response import Response
 
 
 class RestAPIHome(APIView):
-    permission_classes = [permissions.IsAdminUser]
-
     def post(self, request, *args, **kwargs):
         user_post_data = request.data
 
@@ -40,6 +39,7 @@ class ObtainAuthToken(ObtainAuthToken):
 
 
 class ClearExpiredTokens(generics.DestroyAPIView):
+    permission_classes = [permissions.IsAdminUser, IsTokenEditorPermission]
     serializer_class = ExpiringTokenSerializer
 
     def get_queryset(self):

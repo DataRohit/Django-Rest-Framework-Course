@@ -11,5 +11,5 @@ class ExpiringToken(Token):
 
     def save(self, *args, **kwargs):
         if not self.expiration:
-            self.expiration = timezone.now() + timezone.timedelta(minutes=2)
+            self.expiration = timezone.now() + timezone.timedelta(days=1)
         super(ExpiringToken, self).save(*args, **kwargs)
