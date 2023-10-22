@@ -12,7 +12,7 @@ class ExpiringTokenSerializer(AuthTokenSerializer):
         user = validated_data["user"]
         token, created = ExpiringToken.objects.get_or_create(user=user)
         if not created:
-            expiration = timezone.now() + timezone.timedelta(days=1)
+            expiration = timezone.now() + timezone.timedelta(minutes=2)
             token.expiration = expiration
             token.save()
         return token

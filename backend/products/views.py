@@ -10,11 +10,6 @@ from restapi.authentication import ExpiringTokenAuthentication
 class ProductHomeView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        ExpiringTokenAuthentication,
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
     def get_object(self):
         product_count = Product.objects.count()
@@ -27,41 +22,21 @@ class ProductHomeView(generics.RetrieveAPIView):
 class ProductSearchView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        ExpiringTokenAuthentication,
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        ExpiringTokenAuthentication,
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
 class ProductCreateView(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        ExpiringTokenAuthentication,
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
 
 class ProductUpdateView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        ExpiringTokenAuthentication,
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
 
     def get(self, request, *args, **kwargs):
         # Get the instance you want to update
@@ -89,8 +64,3 @@ class ProductUpdateView(generics.UpdateAPIView):
 class ProductDeleteView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [
-        authentication.SessionAuthentication,
-        ExpiringTokenAuthentication,
-    ]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
