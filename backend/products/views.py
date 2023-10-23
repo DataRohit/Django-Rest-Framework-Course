@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from products.models import Product
 from products.serializers import ProductSerializer
-from restapi.mixins import ProductEditorPermissionMixin
+from tokenauth.mixins import ProductEditorPermissionMixin
 from django.db.models import Q
 
 
@@ -32,36 +32,28 @@ class ProductCreateView(ProductEditorPermissionMixin, generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 
-class ProductSearchUpdateDestroyView(
-    ProductEditorPermissionMixin,
-    generics.RetrieveAPIView,
-    generics.UpdateAPIView,
-    generics.DestroyAPIView,
-):
+class ProductDetailView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = []
+
+
+class ProductUpdateView(ProductEditorPermissionMixin, generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-    def get(self, request, *args, **kwargs):
-        # Get the instance you want to update
-        instance = self.get_object()
 
-        # Create the serializer with the instance as initial data
-        serializer = self.get_serializer(instance)
+class ProductDeleteView(ProductEditorPermissionMixin, generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-        return Response(serializer.data)
-
-    def put(self, request, *args, **kwargs):
-        # Get the instance you want to update
-        instance = self.get_object()
-
-        # Create the serializer with the instance and request data
-        serializer = self.get_serializer(instance, data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, *args, **kwargs):
+        product = self.get_object()
+        product.delete()
+        return Response(
+            {"message": "Product Deleted Successfully!"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 
 class ProductSearchView(generics.ListAPIView):

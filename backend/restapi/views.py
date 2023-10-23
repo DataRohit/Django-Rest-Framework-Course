@@ -1,20 +1,16 @@
 # Imports
-from django.utils import timezone
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status
 
-
-from restapi.models import ExpiringToken
-from rest_framework.authtoken.views import ObtainAuthToken
-from restapi.serializers import *
 
 from rest_framework.views import APIView
-from rest_framework import generics, status
-from restapi.mixins import TokenEditorPermissionMixin
+from rest_framework import status
 from rest_framework.response import Response
 
 
 class RestAPIHome(APIView):
+    permission_classes = []
+
     def post(self, request, *args, **kwargs):
         user_post_data = request.data
 
@@ -25,26 +21,3 @@ class RestAPIHome(APIView):
         }
 
         return Response(response_data, status=status.HTTP_201_CREATED)
-
-
-class ObtainAuthToken(ObtainAuthToken):
-    serializer_class = ExpiringTokenSerializer
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data["user"]
-        token, created = ExpiringToken.objects.get_or_create(user=user)
-        return Response({"token": token.key})
-
-
-class ClearExpiredTokens(TokenEditorPermissionMixin, generics.DestroyAPIView):
-    serializer_class = ExpiringTokenSerializer
-
-    def get_queryset(self):
-        return ExpiringToken.objects.filter(expiration__lt=timezone.now())
-
-    def delete(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        queryset.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

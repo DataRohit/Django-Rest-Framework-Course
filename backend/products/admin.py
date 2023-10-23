@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # Import all models
-from .models import *
+from products.models import *
 
 from django.contrib import admin
 

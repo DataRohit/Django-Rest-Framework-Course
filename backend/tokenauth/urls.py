@@ -2,9 +2,10 @@
 from django.urls import path
 
 # Import views.py from restapi app
-from . import views
+from tokenauth import views
 
 # Map the routes to respective views
 urlpatterns = [
-    path("", views.RestAPIHome.as_view(), name="home"),
+    path("", views.ObtainAuthToken.as_view()),
+    path("clear_expired/", views.ClearExpiredTokens.as_view()),
 ]
