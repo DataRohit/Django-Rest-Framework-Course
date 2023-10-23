@@ -1,10 +1,5 @@
-# Import django admin
 from django.contrib import admin
-
-# Import all models
-from products.models import *
-
-from django.contrib import admin
+from products.models import Product
 
 
 class ProductAdmin(admin.ModelAdmin):
