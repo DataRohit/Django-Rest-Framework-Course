@@ -1,6 +1,12 @@
 from django.utils import timezone
+from rest_framework import serializers
 from restapi.models import ExpiringToken
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+
+
+class UserPublicSerializer(serializers.Serializer):
+    username = serializers.CharField(read_only=True)
+    id = serializers.IntegerField(read_only=True)
 
 
 class ExpiringTokenSerializer(AuthTokenSerializer):
