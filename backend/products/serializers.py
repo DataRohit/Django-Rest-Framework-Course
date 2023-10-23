@@ -23,16 +23,6 @@ class ProductSerializer(serializers.ModelSerializer):
         view_name="search_modify_product",
         lookup_field="pk",
     )
-    related_products = serializers.SerializerMethodField(
-        method_name="get_related_products"
-    )
-
-    def get_related_products(self, obj):
-        related_products = obj.user.product_set.all()
-        request = self.context.get("request")
-        return ProductInlineSerializer(
-            related_products, many=True, context={"request": request}
-        ).data
 
     class Meta:
         model = Product
@@ -47,5 +37,4 @@ class ProductSerializer(serializers.ModelSerializer):
             "sale_price",
             "discount",
             "url",
-            "related_products",
         ]

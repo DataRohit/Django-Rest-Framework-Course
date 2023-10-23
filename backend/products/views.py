@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from products.models import Product
 from products.serializers import ProductSerializer
-from restapi.mixins import StaffEditorPermissionMixin
+from restapi.mixins import ProductEditorPermissionMixin
 
 
 class ProductHomeView(generics.RetrieveAPIView):
@@ -23,7 +23,7 @@ class ProductListView(generics.ListAPIView):
     serializer_class = ProductSerializer
 
 
-class ProductCreateView(StaffEditorPermissionMixin, generics.CreateAPIView):
+class ProductCreateView(ProductEditorPermissionMixin, generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -32,7 +32,7 @@ class ProductCreateView(StaffEditorPermissionMixin, generics.CreateAPIView):
 
 
 class ProductSearchUpdateDestroyView(
-    StaffEditorPermissionMixin,
+    ProductEditorPermissionMixin,
     generics.RetrieveAPIView,
     generics.UpdateAPIView,
     generics.DestroyAPIView,
