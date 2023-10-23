@@ -5,7 +5,9 @@ from django.db import models
 import uuid
 
 # Import settings
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 # Create a Product model
@@ -21,6 +23,10 @@ class Product(models.Model):
     category = models.CharField(max_length=120)
     description = models.TextField(blank=True, null=True)
     price = models.FloatField(max_length=120)
+
+    # Change the string representation of the model
+    def __str__(self):
+        return self.title
 
     # Property of the model
     @property
