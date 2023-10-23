@@ -6,7 +6,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 class UserPublicSerializer(serializers.Serializer):
     username = serializers.CharField(read_only=True)
-    id = serializers.IntegerField(read_only=True)
+    id = serializers.UUIDField(read_only=True)
 
 
 class ExpiringTokenSerializer(AuthTokenSerializer):
