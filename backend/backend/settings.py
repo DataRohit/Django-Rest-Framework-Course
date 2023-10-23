@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 import dotenv
 from pathlib import Path
+import datetime
 
 dotenv.load_dotenv()
 
@@ -42,7 +43,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "tokenauth.apps.TokenAuthConfig",
+    "rest_framework_simplejwt",
+    "jwtauth.apps.JwtauthConfig",
+    "tokenauth.apps.TokenauthConfig",
     "restapi.apps.RestapiConfig",
     "products.apps.ProductsConfig",
 ]
@@ -134,7 +137,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
         "tokenauth.authentication.ExpiringTokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
@@ -142,4 +145,10 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
+}
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ["JWT"],
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(minutes=1),
 }
