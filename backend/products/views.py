@@ -4,6 +4,7 @@ from rest_framework import status, generics
 from products.models import Product
 from products.serializers import ProductSerializer
 from restapi.mixins import ProductEditorPermissionMixin
+from django.db.models import Q
 
 
 class ProductHomeView(generics.RetrieveAPIView):
@@ -61,3 +62,19 @@ class ProductSearchUpdateDestroyView(
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProductSearchView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        query = self.request.GET.get("q")
+        if query:
+            filter = (
+                Q(title__icontains=query)
+                | Q(description__icontains=query)
+                | Q(category__icontains=query)
+            )
+            return Product.objects.filter(filter)
+        return Product.objects.none()
