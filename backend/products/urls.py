@@ -2,17 +2,27 @@
 from django.urls import path
 
 # Import views.py from restapi app
-from . import views
+from products import views
 
 # Map the routes to respective views
 urlpatterns = [
-    path("", views.ProductHomeView.as_view(), name="home"),
+    path("", views.ProductHomeView.as_view(), name="product_home"),
     path(
         "<uuid:pk>/",
-        views.ProductSearchUpdateDestroyView.as_view(),
-        name="search_modify_product",
+        views.ProductDetailView.as_view(),
+        name="product_detail",
     ),
-    path("list/", views.ProductListView.as_view(), name="list_product"),
-    path("create/", views.ProductCreateView.as_view(), name="create_product"),
-    path("search/", views.ProductSearchView.as_view(), name="search_product"),
+    path(
+        "<uuid:pk>/update/",
+        views.ProductUpdateView.as_view(),
+        name="product_update",
+    ),
+    path(
+        "<uuid:pk>/delete/",
+        views.ProductDeleteView.as_view(),
+        name="product_delete",
+    ),
+    path("list/", views.ProductListView.as_view(), name="product_list"),
+    path("create/", views.ProductCreateView.as_view(), name="product_create"),
+    path("search/", views.ProductSearchView.as_view(), name="product_search"),
 ]

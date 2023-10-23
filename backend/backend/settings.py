@@ -42,11 +42,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "restapi",
-    "products",
+    "tokenauth.apps.TokenAuthConfig",
+    "restapi.apps.RestapiConfig",
+    "products.apps.ProductsConfig",
 ]
 
-AUTH_USER_MODEL = "restapi.User"
+AUTH_USER_MODEL = "tokenauth.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -134,7 +135,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        "restapi.authentication.ExpiringTokenAuthentication",
+        "tokenauth.authentication.ExpiringTokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly"

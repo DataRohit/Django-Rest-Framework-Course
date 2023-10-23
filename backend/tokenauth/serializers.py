@@ -1,6 +1,6 @@
 from django.utils import timezone
 from rest_framework import serializers
-from restapi.models import ExpiringToken
+from tokenauth.models import ExpiringToken
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 

@@ -1,6 +1,6 @@
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import AuthenticationFailed
-from restapi.models import ExpiringToken
+from tokenauth.models import ExpiringToken
 
 
 class ExpiringTokenAuthentication(TokenAuthentication):

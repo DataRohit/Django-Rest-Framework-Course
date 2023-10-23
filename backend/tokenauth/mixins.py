@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from restapi.permissions import *
+from tokenauth.permissions import *
 
 
 class TokenEditorPermissionMixin:
