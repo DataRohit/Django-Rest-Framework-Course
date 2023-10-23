@@ -1,10 +1,5 @@
-# Import models from Django
 from django.db import models
-
-# Import uuid for unique id
 import uuid
-
-# Import settings
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
