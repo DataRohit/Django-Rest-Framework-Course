@@ -93,8 +93,14 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "djongo",
+        "NAME": "djagno-rest-framework-app",
+        "ENFORCE_SCHEMA": False,
+        "CLIENT": {
+            "host": os.environ["MONGO_DB_URI"],
+            "username": os.environ["MONGO_DB_USERNAME"],
+            "password": os.environ["MONGO_DB_PASSWORD"],
+        },
     }
 }
 
