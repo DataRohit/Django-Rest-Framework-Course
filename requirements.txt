@@ -2,6 +2,9 @@ django
 django-cors-headers
 djangorestframework
 djangorestframework-simplejwt
+djongo
+pymongo==3.11.3
+dnspython
 apscheduler
 pyyaml
 requests
