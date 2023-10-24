@@ -6,5 +6,5 @@ from . import views
 
 # Map the routes to respective views
 urlpatterns = [
-    path("", views.RestAPIHome.as_view(), name="home"),
+    path("", views.RestAPIHome.as_view(), name="restapi__home"),
 ]

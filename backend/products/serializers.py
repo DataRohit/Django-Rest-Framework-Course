@@ -8,7 +8,7 @@ from tokenauth.serializers import UserPublicSerializer
 
 class ProductInlineSerializer(serializers.Serializer):
     url = serializers.HyperlinkedIdentityField(
-        view_name="product_detail", lookup_field="pk", read_only=True
+        view_name="product__detail", lookup_field="pk", read_only=True
     )
     title = serializers.CharField(read_only=True)
 
@@ -20,7 +20,7 @@ class ProductSerializer(serializers.ModelSerializer):
     sale_price = serializers.ReadOnlyField()
     discount = serializers.ReadOnlyField()
     url = serializers.HyperlinkedIdentityField(
-        view_name="product_detail",
+        view_name="product__detail",
         lookup_field="pk",
     )
 

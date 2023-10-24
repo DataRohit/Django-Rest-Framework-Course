@@ -6,6 +6,5 @@ from tokenauth import views
 
 # Map the routes to respective views
 urlpatterns = [
-    path("token/", views.ObtainAuthToken.as_view()),
-    path("token/clear_expired/", views.ClearExpiredTokens.as_view()),
+    path("token/", views.ObtainAuthToken.as_view(), name="tokenauth__token"),
 ]
