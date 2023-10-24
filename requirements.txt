@@ -11,3 +11,4 @@ requests
 django-cors-headers
 python-dotenv
 markdown
+whitenoise
