@@ -15,7 +15,7 @@ def start_scheduler():
     scheduler.add_job(
         clear_expired_tokens,
         "interval",
-        minutes=1,
+        minutes=5,
         id="token_clear_job",
         replace_existing=True,
     )
