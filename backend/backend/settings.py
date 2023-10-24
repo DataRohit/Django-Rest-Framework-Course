@@ -30,7 +30,7 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
+    "task_scheduler.apps.TaskSchedulerConfig",
     "jwtauth.apps.JwtauthConfig",
     "tokenauth.apps.TokenauthConfig",
     "restapi.apps.RestapiConfig",
@@ -160,4 +161,32 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ["JWT"],
     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(minutes=1),
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "django": {
+            "format": "{levelname:8s} {asctime:25s} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "django",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+    "loggers": {
+        "django.server": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+    },
 }
